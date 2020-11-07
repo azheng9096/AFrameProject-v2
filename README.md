@@ -3,7 +3,7 @@ An exploration of A-Frame with animation, and the addition of 3D models
 
 
 
-<p><i>This work is based on:</i>
+<p><i>This work uses the following models:</i>
   
   <i><a href="https://sketchfab.com/3d-models/origami-water-lilies-b02aeabe3e0b461cb214c90e5a6b3b75"> Origami - Water Lilies </a> by <a href="https://sketchfab.com/Clonk"> Clonk </a> licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></i>
 
