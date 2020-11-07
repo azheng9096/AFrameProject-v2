@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/0.7.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.0.1/dist/aframe-extras.min.js"></script>
+
+    <script src="script.js"></script>
+  </head>
+  <body onload="init()">
+    <a-scene light="defaultLightsEnabled: false" id="scene">
+
+      <!--
+        (*modified or added model)
+
+        shake trees on the right by clicking/holding mouse down so leaves will fall*
+
+        mouseover the big tree in the front - tree leaves will change color
+
+        fish will move when mouse is over the fish tank*
+
+        the three fireflies on the streets (not at the trees) will light up on click
+
+        bottom lantern towards the left will turn on/off on click*
+
+        fish tank inside house in the woods that will animate on click*
+
+        waterlilies that will open/close on click* (give it time to fully open or fully close before clicking)*
+
+        fox that will animate on click*
+
+      -->
+
+      <a-assets>
+        <a-asset-item id="house" src="models/house/scene.gltf"></a-asset-item>
+        <a-asset-item id="rmTank" src="models/rmTank/scene.gltf"></a-asset-item>
+        <a-asset-item id="campfire" src="models/campfireAm/scene.gltf"></a-asset-item>
+        <a-asset-item id="log" src="models/log/scene.gltf"></a-asset-item>
+        
+        <a-asset-item id="tree-obj" src="models/tree_/Lowpoly_tree_sample.obj"></a-asset-item>
+        <a-asset-item id="tree-mtl" src="models/tree_/Lowpoly_tree_sample.mtl"></a-asset-item>
+        
+        <a-asset-item id="waterlily" src="models/waterlilies/scene.gltf"></a-asset-item>
+        <a-asset-item id="kFish" src="models/kFish/scene.gltf"></a-asset-item>
+        <a-asset-item id="kFish2" src="models/kFish2/scene.gltf"></a-asset-item>
+        <a-asset-item id="fox" src="models/fox/scene.gltf"></a-asset-item>
+        <a-asset-item id="lantern" src="models/lantern/scene.gltf"></a-asset-item>
+
+      </a-assets>
+
+      <a-entity scale="2 2 2" position="320 0.02 -25" rotation="0 -90 0">
+        <a-gltf-model src="#house" position="0 1.5 0" scale="2 2 2"></a-gltf-model>
+        
+        <a-gltf-model id="tank" src="#rmTank" scale="0.03 0.03 0.03" position="-3.5 2.3 19"></a-gltf-model>
+        
+        <a-entity light="color:#c0c0c0;distance:200;intensity:0.85;type:point;castShadow:true" position="0.4 6.6 20" rotation="-90 0 0"></a-entity>
+        <!--<a-box material="src: models/rmTank/textures/tabble_baseColor.jpeg;repeat: 20 20" geometry="depth: 20; height: 0.15; width: 40" position="9 0 24.3"></a-box>-->
+      </a-entity>
+
+
+      <a-entity position="275 0 -17" scale="3 3 3">
+        <a-gltf-model src="#campfire" animation-mixer="" position="-8 0 -17.5" scale="2 2 2"></a-gltf-model>
+        <a-gltf-model src="#log" position="-9 0.5 -20" rotation="0 20 0" scale="0.003 0.003 0.003"></a-gltf-model>
+      </a-entity>
+
+      <a-gltf-model src="#fox" id="foxEty" position="270 -0.5 -60" scale="0.75 0.75 0.75" rotation="0 145 0"></a-gltf-model>
+      
+      <a-gltf-model src="#lantern" animation-mixer="" position="-17.5 11.75 -71.7" scale="1.75 1.75 1.75" id="stoneLantern"></a-gltf-model>
+      
+
+
+      <a-plane position="322 -0.05 -142" rotation="-90 0 0" material="opacity:0.5;color:#00ffff;repeat:100 100" geometry="height:125;width:75"></a-plane>
+      <a-plane position="190.5 0 -155" rotation="-90 0 0" material="repeat:100 100;src:grass.jpg" geometry="height:100;width:200"></a-plane>
+      <a-plane position="310 0 -6" rotation="-90 0 0" material="repeat:100 100;src:grass.jpg" geometry="height:150;width:100"></a-plane>
+
+
+
+      <a-plane position="0 0 -35" rotation="-90 0 0" material="src: groundtiles.jpg; repeat: 30 60" geometry="height:150;width:20"></a-plane>
+      <a-plane position="-25 0 0" rotation="-90 0 0" material="repeat:1 10;src:stonetexture.jpg" geometry="height:30;width:10"></a-plane>
+
+      <a-plane position="25 -0.02 -50" rotation="-90 0 0" material="repeat:1 10;src:stonetexture.jpg" geometry="height:120;width:10"></a-plane>
+      
+      
+
+      <a-plane position="-15 0 -35" rotation="-90 0 0" material="repeat:1 10;src:stonetexture.jpg" geometry="height:150;width:10"></a-plane>
+
+      <a-plane position="15 0 -35" rotation="-90 0 0" material="repeat:1 10;src:stonetexture.jpg" geometry="height:150;width:10"></a-plane>
+
+
+      <a-sky color="#283942"></a-sky>
+
+      <!--#678da3 (lighter) or #283942(darker) or #ECECEC (daylight)-->
+
+
+
+      <!--right building front-->
+      <a-box position="20 20 -25" material="src: wall.jpg" geometry="depth:30;width:0.5;height:40"></a-box>
+      <a-box position="20 20 -9.25" material="src:cwood.jpg" geometry="width:1.5;depth:1.5;height:40"></a-box>
+
+      <a-box position="19 28 -25" material="src:dwood.jpg" geometry="depth:30;width:0.5"></a-box>
+      <a-box position="17.552 26 -25" material="src:dwood.jpg" geometry="depth:32;height:0.25;width:6" rotation="0 0 35"></a-box>
+
+      <a-box position="16.65 38.25 -24" material="src:tiles.jpg" geometry="depth:33;width:8;height:0.25" rotation="0 0 30"></a-box>
+
+      <!--window 1flr + frame -->
+      <a-box position="19.8 7.25 -15.5" material="transparent:true;src:window2.png" geometry="height:8.5;depth:6;width:0.5"></a-box>
+      <a-box position="19.5 3 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+      <a-box position="19.5 11.7 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+      <a-box position="19.5 7.25 -12.25" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+      <a-box position="19.5 7.25 -18.75" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+
+      <!--door-->
+      <a-box position="19.45 4.75 -30.1" material="transparent:true;src:door2Ed.png" geometry="depth:9.75;height:9.5;width:0.5"></a-box>
+
+      <a-box position="19.5 6.25 -22.5" material="src:dwood.jpg" geometry="height:8;width:2;depth:0.5" rotation="0 90 0"></a-box>
+      <a-box position="19.5 6.25 -37.5" material="src:dwood.jpg" geometry="depth:0.5;height:8;width:2" rotation="0 90 0"></a-box>
+
+      <!--window 2fl-->
+      <a-box position="19.9 20.5 -17" material="transparent:true;src:latticeTns.png" geometry="height:6;depth:6;width:0.5"></a-box>
+      <a-box position="19.5 17.5 -17" material="src:dwood.jpg" geometry="height:0.5;depth:7;width:0.5"></a-box>
+
+
+      <a-box position="19.9 18.5 -30.5" material="transparent:true;src:door3.png" geometry="depth:7;height:8.5;width:0.5"></a-box>
+      <a-box position="19 30 -9.5" material="src:dwood.jpg" geometry="depth:5;width:0.5" rotation="90 0 0"></a-box>
+      <a-box position="12.5 33 -9.5" material="src:dwood.jpg" geometry="depth:15" rotation="0 90 0"></a-box>
+      <a-box position="16.5 30.75 -9.5" material="src:dwood.jpg" geometry="depth:6;height:0.5" rotation="38 90 0"></a-box>
+      <a-box position="8 26.3 -9.5" material="src:vertical1.jpg" geometry="height:12.5;width:0.1;depth:6" rotation="0 90 0"></a-box>
+      
+
+      <!--3flr-->
+      <a-box position="19 35 -25" material="src:dwood.jpg" geometry="depth:30;width:0.5"></a-box>
+
+      <a-box position="18.7 32 -30" material="src:lwood.jpg" geometry="depth:15;width:3;height:0.25" rotation="0 0 125"></a-box>
+      <a-image position="18.7 31.75 -30" color="black" src="calligraphy3.png" rotation="35 -90 0" geometry="width:9;height:2.5"></a-image>
+
+      <a-cylinder position="19.7 31.5 -14.7" rotation="0 0 90" material="src: window3.png; transparent:true; opacity: 1.0" geometry="radius:2.5"></a-cylinder>
+
+
+      <!-- right stonewall block-->
+      <a-box position="28 35 -42.4" material="repeat:1 10;src:stonewall.jpg" geometry="depth:5;width:20;height:70"></a-box>
+
+      <a-box position="22 20 -45.25" material="src:cwood.jpg" geometry="depth:1.5;height:40;width:1.5"></a-box>
+      <a-box position="22 55 -45.25" material="src:cwood.jpg" geometry="height:30;depth:1.5;width:1.5"></a-box>
+      
+      <a-box position="18.25 25 -42.6" material="src:dwood.jpg" geometry="height:50;depth:3;width:1.5"></a-box>
+
+      <a-box position="14 44.3 -42.7" material="src:dwood.jpg" geometry="depth:10;height:0.5;width:3.5" rotation="38 90 0"></a-box>
+      <a-box position="10.25 47.75 -42.7" material="src:dwood.jpg" geometry="depth:18;width:3.5" rotation="0 90 0"></a-box>
+
+
+        <!--lanterns-->
+        <a-cylinder position="3.5 44 -42.7" material="color:#ff4a4a" geometry="height:1.75;segmentsRadial:8"></a-cylinder>
+        <a-cylinder position="3.5 41 -42.7" material="color:#ff4a4a" geometry="height:1.75;segmentsRadial:8"></a-cylinder>
+        <a-cylinder position="3.5 38 -42.7" material="color:#ff4a4a" geometry="height:1.75;segmentsRadial:8"></a-cylinder>
+        <a-cylinder position="3.5 35 -42.7" material="color:#ff4a4a" geometry="height:1.75;segmentsRadial:8"></a-cylinder>
+
+
+        <!--banner-->
+      <a-box position="15.5 25.95 -43" material="src:vertical3.jpg" geometry="depth:4;height:15;width:0.1" rotation="0 90 0"></a-box>
+
+      
+
+
+
+
+
+      <!--left building front-->
+      <a-box position="-20 20 -30" material="src: wall.jpg" geometry="depth:30;height:40;width:0.5"></a-box>
+      
+
+      <a-box position="-16 -0.3 -30" material="src:dwood.jpg" geometry="width:7.5;depth:30"></a-box>
+      <a-box position="-19 6.25 -22" material="src:dwood.jpg" geometry="height:12.5;width:2;depth:0.5"></a-box>
+      <a-box position="-19 6.25 -32" material="src:dwood.jpg" geometry="height:12.5;width:1.5;depth:0.5"></a-box>
+      <a-box position="-19.9 4.75 -26.9" material="src:door3.png; transparent:true; opacity:1.0" geometry="height:9.5;depth:9.75;width:0.5"></a-box>
+      <a-box position="-20 9 -26.9" material="src:dwood.jpg" geometry="width:3;height:0.5;depth:9.75"></a-box>
+
+      <a-box position="-19.9 17 -25.7" material="transparent:true;src:door3.png" geometry="depth:5.5;height:8;width:0.5"></a-box>
+      <a-box position="-19.8 18.5 -20" material="src:window1.png; transparent: true; opacity: 1.0" geometry="height:4;depth:4;width:0.5"></a-box>
+      <a-box position="-19.8 18.5 -38.4" material="src:window1.png; transparent: true; opacity: 1.0" geometry="depth:8;height:4;width:0.5"></a-box>
+      <a-box position="-19.8 18.5 -31" material="src:window1.png; transparent: true; opacity: 1.0;" geometry="depth:4;height:4;width:0.5"></a-box>
+
+      <a-box position="-19.8 6 -38.6" color="#2b2d2f" material="src:window1.png; transparent: true; opacity: 1.0;" geometry="height:8;depth:8;width:0.5"></a-box>
+
+      <a-box position="-19.8 32 -30" material="transparent:true;src:window1.png; repeat: 5 1" geometry="height:10;depth:28;width:0.5"></a-box>
+
+      <a-box position="-19.5 20 -14.6" material="src:cwood.jpg; repeat: 1 10" geometry="height:40"></a-box>
+      <a-box position="-19.5 20 -45.6" material="src:cwood.jpg; repeat: 1 10" geometry="height:40"></a-box>
+
+
+      <a-box position="-18.5 6.25 -15" material="src:dwood.jpg" geometry="height:12.5;depth:0.5"></a-box>
+      <a-box position="-19 1.784 -18.567" material="src:dwood.jpg" geometry="height:7;width:2;depth:0.5" rotation="90 0 0"></a-box>
+
+      
+      <a-box position="-11.7 24 -30" material="src:horizontalB.jpg" geometry="depth:28;height:4;width:0.01" rotation="0 -180 -20"></a-box>
+
+      <!--signs-->
+      <a-box position="-17.23 10 -27.1" material="src:lwood.jpg" geometry="width:3;depth:10;height:0.25" rotation="0 0 -125"></a-box>
+      <a-image position="-17.15 9.8 -27" color="black" src="calligraphy1.png" rotation="35 90 0" geometry="width:8;height:2"></a-image>
+
+      <a-box position="-12 27 -30" material="src:lwood.jpg" geometry="depth:12;width:3;height:0.25" rotation="0 0 -125"></a-box>
+      <a-image position="-11.8 27 -30" color="black" src="calligraphy2.png" rotation="35 90 0" geometry="height:2;width:8"></a-image>
+
+
+      <!--banner-->
+      <a-box position="-14.8 8.5 -16.8" material="src:banner4.jpg" geometry="depth:4;height:6;width:0.1" rotation="0 90 0"></a-box>
+
+      <!--left stonewall block-->
+      <a-box position="-25 30 -48.1" material="src:stonewall.jpg; repeat: 1 10" geometry="depth:4;width:20;height:60"></a-box>
+      
+
+
+
+
+      
+      <!--left back -->
+
+
+      <a-box position="-20 30 -85" material="src:wall.jpg" geometry="height:60;depth:75;width:0.5"></a-box>
+
+
+      <!--roof-->
+      <a-box position="-16.75 58.25 -74" material="src:tiles.jpg" geometry="depth:48;height:0.25;width:15" rotation="0 0 -30"></a-box>
+      <a-box position="-16.15 16 -65.5" material="src:tiles.jpg" geometry="depth:32;height:0.25;width:8" rotation="0 0 -30"></a-box>
+      <a-box position="-16.25 14 -65.5" material="src:tiles.jpg" geometry="width:7;depth:32;height:0.25"></a-box>
+
+      <!--door-->
+      <a-box position="-19.9 4.75 -60.15" material="transparent:true;src:door3.png" geometry="depth:9.75;height:9.5;width:0.5"></a-box>
+      <a-box position="-19.9 5.75 -68.5" material="transparent:true;src:window2.png" geometry="height:5;depth:5;width:0.5"></a-box>
+      <a-box position="-19.79 3 -68.55" material="src:dwood.jpg" geometry="depth:6;height:0.5;width:0.5"></a-box>
+
+      <a-box position="-19.5 7 -52.7" material="src:dwood.jpg" geometry="height:14;depth:5"></a-box>
+      <a-box position="-19.5 7 -73.5" material="src:dwood.jpg" geometry="depth:0.5;height:14;width:1.5"></a-box>
+      <a-box position="-19.5 12 -64" material="repeat:2 1;src:dwood.jpg" geometry="depth:18.5;height:5"></a-box>
+      
+      <!--stone lantern light-->
+      <!--<a-cylinder position="-17.5 11.5 -71.7" material="color:#f9f271" geometry="height:1.5;radius:0.75;segmentsRadial:8" id="stoneLantern"></a-cylinder>
+      <a-cone position="-17.5 12.4 -71.7" material="color:#3b3b3b" geometry="height:0.4;radiusTop:0.65"></a-cone>
+      <a-cone position="-17.5 10.8 -71.7" material="color:#3b3b3b" geometry="height:0.4;radiusTop:0.65"></a-cone>-->
+      <a-cylinder position="-17.5 13.25 -71.7" material="color:#151515" geometry="radius:0.02;height:1.5;segmentsRadial:8"></a-cylinder>
+
+      <!-- banner -->
+      <a-box position="-17 5.83 -73.5" material="src:banner1.jpg" geometry="depth:3.5;height:8;width:0.1" rotation="0 90 0"></a-box>
+
+      <a-box position="-13 10.3 -49.35" material="src:banner5.jpg" geometry="depth:3.5;height:8;width:0.1" rotation="0 90 0"></a-box>
+
+
+      <a-box position="-12 1 -80" material="src:dwood.jpg" geometry="height:2;width:0.25;depth:0.25"></a-box>
+      <a-box position="-12 6 -80" material="src:vertical5.jpg" geometry="depth:4.5;height:8.5;width:0.1" rotation="0 90 0"></a-box>
+      
+
+      <!--roof2 -->
+      <a-box position="-16.15 25 -86" material="src:tiles.jpg" geometry="depth:25;height:0.25;width:8" rotation="0 0 -30"></a-box>
+
+      <!--banner up-->
+      <a-box position="-19.8 23.2 -62.3" material="src:horizontalB2.jpg" geometry="depth:22;height:9;width:0.5"></a-box>
+
+      <a-box position="-12.5 52.25 -68.056" material="src:red.jpg" geometry="height:0.25;depth:15" rotation="0 90 0"></a-box>
+      <a-box position="-7.013 47.968 -68.05" material="src:vertical4.jpg" geometry="depth:4.5;height:8.5;width:0.1" rotation="0 90 0"></a-box>
+
+      <!--window up1 -->
+      <a-entity position="0.1 26.3 -72" rotation="0 180 0">
+        <a-box position="19.8 7.25 -15.5" material="transparent:true;src:window2.png" geometry="depth:6;height:8.5;width:0.5"></a-box>
+        <a-box position="19.5 3 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 11.7 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 7.25 -12.25" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+        <a-box position="19.5 7.25 -18.75" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+      </a-entity>
+      <a-entity position="0.1 26.3 -82" rotation="0 180 0">
+        <a-box position="19.8 7.25 -15.5" material="transparent:true;src:window2.png" geometry="depth:6;height:8.5;width:0.5"></a-box>
+        <a-box position="19.5 3 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 11.7 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 7.25 -12.25" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+        <a-box position="19.5 7.25 -18.75" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+      </a-entity>
+      <a-entity position="0.1 26.3 -92" rotation="0 180 0">
+        <a-box position="19.8 7.25 -15.5" material="transparent:true;src:window2.png" geometry="depth:6;height:8.5;width:0.5"></a-box>
+        <a-box position="19.5 3 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 11.7 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 7.25 -12.25" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+        <a-box position="19.5 7.25 -18.75" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+      </a-entity>
+      <a-entity position="0.1 26.3 -102" rotation="0 180 0">
+        <a-box position="19.8 7.25 -15.5" material="transparent:true;src:window2.png" geometry="depth:6;height:8.5;width:0.5"></a-box>
+        <a-box position="19.5 3 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 11.7 -15.5" material="src:dwood.jpg" geometry="depth:7;height:0.5;width:0.5"></a-box>
+        <a-box position="19.5 7.25 -12.25" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+        <a-box position="19.5 7.25 -18.75" material="src:dwood.jpg" geometry="depth:8.5;height:0.5;width:0.5" rotation="90 0 0"></a-box>
+      </a-entity>
+
+      <!--nextdoor -->
+
+      <a-box position="-19.75 12 -88.5" material="repeat:2 1;src:dwood.jpg" geometry="width:0.5;depth:18.5;height:5"></a-box>
+      <a-box position="-19.75 4.8 -92.786" material="transparent:true;src:door2Ed.png" geometry="depth:9.75;height:9.5;width:0.5"></a-box>
+
+      <a-box position="-19.79 17.75 -87.5" material="src:dwood.jpg" geometry="depth:20;height:0.5"></a-box>
+      <a-box position="-19.5 9 -98" material="src:dwood.jpg" geometry="height:18;width:2;depth:0.5"></a-box>
+
+
+      <a-box position="-19.75 22.2 -87.7" material="transparent:true;src:window1.png;repeat:4 1" geometry="height:9;depth:20;width:0.5"></a-box>
+
+        <!--pillar-->
+      <a-box position="-25 15 -99.75" material="repeat:1 10;src:stonewall.jpg" geometry="height:30;depth:2.5;width:20"></a-box>
+      <a-box position="-20.437 30.478 -99.75" material="repeat:1 10;src:stonewall.jpg" geometry="depth:2.45;width:5;height:10" rotation="0 0 58.32710354431781"></a-box>
+
+      <!--banner-->
+      <a-box position="-12.9 16.2 -99.5" material="src:vertical2.jpg" geometry="height:15;depth:4;width:0.1" rotation="0 90 0"></a-box>
+
+      
+
+
+
+      <!--right back -->
+      <a-box position="22.5 35 -85" material="src:wall.jpg" geometry="height:70;depth:80;width:0.5"></a-box>
+
+      <a-box position="19.154 68.25 -72.191" material="src:tiles.jpg" geometry="depth:55;width:15;height:0.25" rotation="0 0 30"></a-box>
+
+      <a-box position="20.5 44.87 -76.55" material="src:wall.jpg; repeat: 1 10" geometry="height:40;width:6"></a-box>
+      <a-box position="17.295 46 -76.55" material="src:cwood.jpg" geometry="height:42.5;depth:1.5;width:1.5"></a-box>
+      <a-box position="20.6 66.5 -76.55" material="src:wall.jpg; repeat: 1 10" geometry="height:4.5;width:6" rotation="0 0 30"></a-box>
+
+      <!--roof-->
+      <a-entity position="2.45 2 20" rotation="0 180 0" scale="1 1 -1.5">
+        <a-box position="-16.15 16 -65.5" material="src:tiles.jpg; repeat: 1 2" geometry="depth:32;height:0.25;width:8" rotation="0 0 -30"></a-box>
+        <a-box position="-16.25 14 -65.5" material="src:tiles.jpg; repeat: 1 2" geometry="depth:32;height:0.25;width:7"></a-box>
+      </a-entity>
+
+      <!--door-->
+      <a-box position="22 4.8 -95" material="transparent:true;src:door2Ed.png" geometry="depth:9.75;height:9.5;width:0.5"></a-box>
+      <a-box position="22 5 -71" material="src:door1.jpg" geometry="depth:28;height:10;width:0.5"></a-box>
+
+
+      <a-box position="21 10 -53.25" material="src:dwood.jpg" geometry="height:20;depth:2;width:2" rotation="0 90 0"></a-box>
+      <a-box position="21 10 -103.25" material="src:dwood.jpg" geometry="depth:2;height:20;width:2" rotation="0 90 0"></a-box>
+
+      <a-cylinder position="17.25 8 -57" material="src:dwood.jpg" geometry="height:16;radius:0.5;segmentsRadial:8"></a-cylinder>
+      <a-cylinder position="17.25 8 -98.25" material="src:dwood.jpg" geometry="height:16;radius:0.5;segmentsRadial:8"></a-cylinder>
+
+
+      <a-box position="21.5 8 -55.3" material="src:dwood.jpg" geometry="width:3.5;depth:0.5;height:16" rotation="0 90 0"></a-box>
+      <a-box position="21.5 8 -87.65" material="src:dwood.jpg" geometry="width:5.25;depth:0.5;height:16" rotation="0 90 0"></a-box>
+      <a-box position="21.5 8 -101" material="src:dwood.jpg" geometry="width:2.5;depth:0.5;height:16" rotation="0 90 0"></a-box>
+      <a-box position="21.5 12.75 -95" material="repeat: 1.5 1; src:dwood.jpg" geometry="height:6.5;width:10;depth:0.5" rotation="0 90 0"></a-box>
+      <a-box position="21.5 12.75 -71" material="repeat:4.5 1;src:dwood.jpg" geometry="width:28;height:6.5;depth:0.5" rotation="0 90 0"></a-box>
+
+      <!-- banner-->
+      <a-box position="15.4 43 -61" material="src:horizontalB1.jpg" geometry="height:6;depth:28;width:0.01" rotation="0 -180 -20"></a-box>
+
+      <a-box position="13.75 19.75 -82" material="src:horizontalB3.jpg" geometry="height:9;depth:35;width:0.01" rotation="0 -180 10"></a-box>
+
+      <a-box position="18 11.45 -87" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:7.25"></a-box>
+      <a-box position="17.965 7.4 -87" material="src:banner3.jpg" geometry="depth:4;height:8;width:0.1" rotation="0 90 0"></a-box>
+
+
+      <!--2flr-->
+      <a-box position="22 30 -60.975" material="repeat:5 1;transparent:true;src:window1.png" geometry="depth:28;height:10;width:0.5"></a-box>
+
+      <a-entity position="42 9.2 -56" scale="1 1.2 1.2">
+        <a-box position="-19.9 17 -25.7" material="transparent:true;src:door3.png" geometry="depth:5.5;height:8;width:0.5"></a-box>
+        <a-box position="-19.8 18.5 -20" material="transparent:true;src:window1.png" geometry="depth:4;height:4;width:0.5"></a-box>
+        <a-box position="-19.8 18.5 -38.4" material="transparent:true;src:window1.png" geometry="depth:8;height:4;width:0.5"></a-box>
+        <a-box position="-19.8 18.5 -31" material="transparent:true;src:window1.png" geometry="depth:4;height:4;width:0.5"></a-box>
+      </a-entity>
+
+
+      <!--3flr-->
+      <a-entity position="42 30 -24.7" scale="1 1.2 1.2">
+        <a-box position="-19.9 17 -25.7" material="transparent:true;src:door3.png" geometry="depth:5.5;height:8;width:0.5"></a-box>
+        <a-box position="-19.8 18.5 -20" material="transparent:true;src:window1.png" geometry="depth:4;height:4;width:0.5"></a-box>
+        <a-box position="-19.8 18.5 -38.4" material="transparent:true;src:window1.png" geometry="depth:8;height:4;width:0.5"></a-box>
+        <a-box position="-19.8 18.5 -31" material="transparent:true;src:window1.png" geometry="depth:4;height:4;width:0.5"></a-box>
+      </a-entity>
+
+
+
+
+
+      <!--bridge********-->
+      <a-box position="1.5 40.31 -105" material="src:dwood.jpg" geometry="height:6;depth:44;width:0.5" rotation="0 90 0"></a-box>
+      <a-box position="1.5 40.31 -120" material="src:dwood.jpg" geometry="depth:44;height:6;width:0.5" rotation="0 90 0"></a-box>
+      <a-box position="1.5 38 -112.5" material="src:dwood.jpg" geometry="height:15;depth:44;width:0.5" rotation="0 90 90"></a-box>
+
+      <a-box position="1.5 52 -105" material="src:dwood.jpg" geometry="height:2;depth:44;width:0.5" rotation="0 90 0"></a-box>
+      <a-box position="1.5 52 -120" material="src:dwood.jpg" geometry="depth:44;height:2;width:0.5" rotation="0 90 0"></a-box>
+      <a-box position="1.5 53 -112.5" material="src:dwood.jpg" geometry="depth:44;height:15;width:0.5" rotation="0 90 90"></a-box>
+
+      <a-box position="-19.4 42 -76.8" material="src:dwood.jpg" geometry="depth:57;height:3;width:0.5"></a-box>
+      <a-box position="22 42 -76.8" material="src:dwood.jpg" geometry="depth:57;height:3;width:0.5"></a-box>
+
+        <!--door-->
+
+      <a-box position="-19.9 45.85 -112.5" material="transparent:true;src:door2Ed.png" geometry="depth:12;height:14;width:0.5"></a-box>
+
+      <a-box position="22.2 45.85 -112.5" material="transparent:true;src:door2Ed.png" geometry="depth:12;height:14;width:0.5"></a-box>
+
+
+        <!--sign-->
+      <a-box position="0 37.769 -104.25" material="src:finedwood.jpg" geometry="depth:20;width:5;height:0.25" rotation="0 90 125"></a-box>
+
+      <a-box position="0 39.66 -102.65" material="src:goldTx.jpg" geometry="depth:20;height:0.25" rotation="0 90 125"></a-box>
+      <a-box position="0 35.5 -105.6" material="src:goldTx.jpg" geometry="depth:20;height:0.25" rotation="0 90 125"></a-box>
+
+      <a-box position="-10.3 37.6 -104.158" material="src:goldTx.jpg" geometry="height:0.25;width:6.1" rotation="0 90 125"></a-box>
+      <a-box position="10.3 37.6 -104.158" material="src:goldTx.jpg" geometry="width:6.1;height:0.25" rotation="0 90 125"></a-box>
+
+      <a-image position="0 37.5 -104" color="gold" src="calligraphy4W.png" rotation="35 0 0" geometry="width:15;height:3.5"></a-image>
+
+      <!-- top -->
+      <a-cone position="0 58.5 -112.5" material="color:#3b3b3b" geometry="radiusBottom:17;height:3.5;segmentsRadial:4" rotation="0 45 0"></a-cone>
+      <a-box position="-13.9 58.25 -112.5" material="src:gtiles.jpg; repeat: 5 5" geometry="depth:24.5;width:5;height:0.25" rotation="0 0 -25"></a-box>
+      <a-box position="13.9 58.25 -112.5" material="src:gtiles.jpg; repeat: 5 5" geometry="depth:24.5;width:5;height:0.25" rotation="0 0 25"></a-box>
+
+
+      <a-box position="0 54.75 -102" material="src:red.jpg" geometry="depth:30" rotation="0 90 0"></a-box>
+      <a-box position="0 50 -102" material="src:red.jpg" geometry="depth:30" rotation="0 90 0"></a-box>
+
+      <a-box position="-12 52.5 -102" material="src:red.jpg" geometry="height:5" rotation="0 90 0"></a-box>
+      <a-box position="12 52.5 -102" material="src:red.jpg" geometry="height:5" rotation="0 90 0"></a-box>
+
+      <a-box position="-16 52.25 -102" material="src:red.jpg" geometry="depth:10" rotation="0 90 0"></a-box>
+      <a-box position="16 52.25 -102" material="src:red.jpg" geometry="depth:10" rotation="0 90 0"></a-box>
+      
+      <a-box position="-12 52.5 -103.5" material="src:dwood.jpg" geometry="width:5" rotation="0 90 0"></a-box>
+      <a-box position="12 52.5 -103.5" material="src:dwood.jpg" geometry="width:5" rotation="0 90 0"></a-box>
+
+
+      <a-box position="-9 55 -108" material="src:red.jpg" geometry="height:4" rotation="0 90 0"></a-box>
+      <a-box position="9 55 -108" material="src:red.jpg" geometry="height:4" rotation="0 90 0"></a-box>
+
+      <a-box position="0 56 -108" material="src:red.jpg" geometry="depth:18" rotation="0 90 0"></a-box>
+
+
+
+      <a-box position="9 55 -116.5" material="src:red.jpg" geometry="height:4" rotation="0 90 0"></a-box>
+      <a-box position="9 55 -116.5" material="src:red.jpg" geometry="height:4" rotation="0 90 0"></a-box>
+
+      <a-box position="0 56 -116.5" material="src:red.jpg" geometry="depth:18" rotation="0 90 0"></a-box>
+
+
+      <a-box position="-9 56 -112.5" material="src:red.jpg" geometry="width:9" rotation="0 90 0"></a-box>
+      <a-box position="9 56 -112.5" material="src:red.jpg" geometry="width:9" rotation="0 90 0"></a-box>
+
+
+      <!--bridge pillar-->
+      <a-cylinder position="-14 44.8 -105" material="src:dwood.jpg" geometry="height:15;radius:0.5;"></a-cylinder>
+      <a-cylinder position="16.5 44.8 -105" material="src:dwood.jpg" geometry="height:15;radius:0.5;"></a-cylinder>
+
+      <a-cylinder position="-14 44.8 -120" material="src:dwood.jpg" geometry="height:15;radius:0.5;"></a-cylinder>
+      <a-cylinder position="16.5 44.8 -120" material="src:dwood.jpg" geometry="height:15;radius:0.5;"></a-cylinder>
+
+      
+
+
+      <!-- Stonewall -->
+      <a-box position="-44.5 20 -15" material="src:stonewall.jpg;repeat:10 10" geometry="width:50;height:40"></a-box>
+      <a-box position="40.5 20 -9.75" material="repeat:10 10;src:stonewall.jpg" geometry="width:40;height:40"></a-box>
+
+      
+
+
+
+
+      <!--sidewalk-->
+      <a-box position="-10 -0.175 -60" material="repeat:0.5 20; src:stonetexture.jpg" geometry="depth:100;width:0.5"></a-box>
+      <a-box position="10 -0.175 -30" material="repeat:0.5 20; src:stonetexture.jpg" geometry="depth:100; width:0.5"></a-box>
+
+
+
+      <!--fence left front-->
+      <a-box position="-16 12 -30" material="src:dwood.jpg" geometry="width:7.5;depth:30"></a-box>
+
+      <a-box position="-16.25 13.5 -15.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="-16.25 13.5 -44.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="-13 13.5 -30" material="repeat:6 1;transparent:true;src:latticeTns.png" geometry="width:30;height:3;depth:0.5" rotation="0 90 0"></a-box>
+
+      <a-box position="-12.8 14 -15.25" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+      <a-box position="-12.8 14 -44.75" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+
+      <a-box position="-16.25 15.5 -15.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="-16.25 15.5 -44.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="-13 15.5 -30" material="src:dwood.jpg" geometry="height:0.25;width:30;depth:0.25" rotation="0 90 0"></a-box>
+
+      <a-box position="-17.5 21 -30" material="src:dwood.jpg" geometry="depth:32;width:6;height:0.25" rotation="0 0 -35"></a-box>
+      <a-box position="-16.781 38.396 -30" material="src:tiles.jpg" geometry="width:8;depth:32;height:0.25" rotation="0 0 -29.56462222875048"></a-box>
+
+      <!-- up -->
+
+      <a-box position="-16 25 -30" material="src:dwood.jpg" geometry="width:7.5;depth:30"></a-box>
+
+      <a-box position="-16.25 26.5 -15.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="-16.25 26.5 -44.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="-13 26.5 -30" material="repeat:6 1;transparent:true;src:latticeTns.png" geometry="width:30;height:3;depth:0.5" rotation="0 90 0"></a-box>
+
+      <a-box position="-12.8 27 -15.25" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+      <a-box position="-12.8 27 -44.75" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+
+      <a-box position="-16.25 28.5 -15.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="-16.25 28.5 -44.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="-13 28.5 -30" material="src:dwood.jpg" geometry="height:0.25;width:30;depth:0.25" rotation="0 90 0"></a-box>
+
+
+
+      <!--fence left back-->
+      <!--<a-box position="-16 12 -75" material="src:dwood.jpg" geometry="width:7.5;depth:30"></a-box>
+
+      <a-box position="-16.25 13.5 -60.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="-16.25 13.5 -89.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="-13 13.5 -75" material="repeat:6 1;transparent:true;src:latticeTns.png" geometry="width:30;height:3;depth:0.5" rotation="0 90 0"></a-box>
+
+      <a-box position="-12.8 14 -60.25" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+      <a-box position="-12.8 14 -89.75" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+
+      <a-box position="-16.25 15.5 -60.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="-16.25 15.5 -89.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="-13 15.5 -75" material="src:dwood.jpg" geometry="height:0.25;width:30;depth:0.25" rotation="0 90 0"></a-box>-->
+
+
+      <!-- fence right -->
+      <a-box position="16 14 -25" material="src:dwood.jpg" geometry="width:7.5;depth:30"></a-box>
+
+      <a-box position="16.25 15.5 -10.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="16.25 15.5 -39.425" material="src:latticeTns.png; transparent: true; opacity: 1.0; repeat: 2 1" geometry="height:3;width:7.25;depth:0.5" ></a-box>
+      <a-box position="13 15.5 -25" material="repeat:6 1;transparent:true;src:latticeTns.png" geometry="width:30;height:3;depth:0.5" rotation="0 90 0"></a-box>
+
+      <a-box position="12.8 16 -10.25" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+      <a-box position="12.8 16 -39.75" material="src:dwood.jpg" geometry="height:3.5;depth:0.5;width:0.5"></a-box>
+
+      <a-box position="16.25 17.5 -10.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="16.25 17.5 -39.425" material="src:dwood.jpg" geometry="height:0.25;width:7.25;depth:0.25"></a-box>
+      <a-box position="13 17.5 -25" material="src:dwood.jpg" geometry="height:0.25;width:30;depth:0.25" rotation="0 90 0"></a-box>
+      
+
+      <!--fence right back-->
+      <a-entity position="2.25 10 -36">
+
+        <a-box position="16 14 -25" material="src:dwood.jpg" geometry="depth:30;width:7.5"></a-box>
+
+        <a-box position="16.25 15.5 -10.425" material="repeat:2 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:7.25"></a-box>
+        <a-box position="16.25 15.5 -39.425" material="repeat:2 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:7.25"></a-box>
+        <a-box position="13 15.5 -25" material="repeat:6 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:30" rotation="0 90 0"></a-box>
+
+        <a-box position="12.8 16 -10.25" material="src:dwood.jpg" geometry="depth:0.5;height:3.5;width:0.5"></a-box>
+        <a-box position="12.8 16 -39.75" material="src:dwood.jpg" geometry="depth:0.5;height:3.5;width:0.5"></a-box>
+
+        <a-box position="16.25 17.5 -10.425" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:7.25"></a-box>
+        <a-box position="16.25 17.5 -39.425" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:7.25"></a-box>
+        <a-box position="13 17.5 -25" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:30" rotation="0 90 0"></a-box>
+
+      </a-entity>
+      
+      <a-entity position="2.25 10 -67">
+        <a-box position="16 14 -25" material="src:dwood.jpg" geometry="depth:30;width:7.5"></a-box>
+
+        <a-box position="16.25 15.5 -10.425" material="repeat:2 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:7.25"></a-box>
+        <a-box position="16.25 15.5 -39.425" material="repeat:2 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:7.25"></a-box>
+        <a-box position="13 15.5 -25" material="repeat:6 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:30" rotation="0 90 0"></a-box>
+
+        <a-box position="12.8 16 -10.25" material="src:dwood.jpg" geometry="depth:0.5;height:3.5;width:0.5"></a-box>
+        <a-box position="12.8 16 -39.75" material="src:dwood.jpg" geometry="depth:0.5;height:3.5;width:0.5"></a-box>
+
+        <a-box position="16.25 17.5 -10.425" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:7.25"></a-box>
+        <a-box position="16.25 17.5 -39.425" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:7.25"></a-box>
+        <a-box position="13 17.5 -25" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:30" rotation="0 90 0"></a-box>
+
+      </a-entity>
+
+        <!--up-->
+        <a-entity position="2.25 32 -36">
+
+        <a-box position="16 14 -25" material="src:dwood.jpg" geometry="depth:30;width:7.5"></a-box>
+
+        <a-box position="16.25 15.5 -10.425" material="repeat:2 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:7.25"></a-box>
+        <a-box position="16.25 15.5 -39.425" material="repeat:2 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:7.25"></a-box>
+        <a-box position="13 15.5 -25" material="repeat:6 1;transparent:true;src:latticeTns.png" geometry="depth:0.5;height:3;width:30" rotation="0 90 0"></a-box>
+
+        <a-box position="12.8 16 -10.25" material="src:dwood.jpg" geometry="depth:0.5;height:3.5;width:0.5"></a-box>
+        <a-box position="12.8 16 -39.75" material="src:dwood.jpg" geometry="depth:0.5;height:3.5;width:0.5"></a-box>
+
+        <a-box position="16.25 17.5 -10.425" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:7.25"></a-box>
+        <a-box position="16.25 17.5 -39.425" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:7.25"></a-box>
+        <a-box position="13 17.5 -25" material="src:dwood.jpg" geometry="depth:0.25;height:0.25;width:30" rotation="0 90 0"></a-box>
+
+      </a-entity>
+      
+
+
+
+      <!-- tree back -->
+      <!--<a-circle rotation="-90 0 0" position="0 0 -220" radius="12.5" material="repeat:5 3;src:grass.jpg" geometry="radius:30"></a-circle>
+      <a-ring rotation="-90 0 0" position="0 0 -220" radius-inner="30"
+      radius-outer="31.5" color="gray" side="double"></a-ring>
+      <a-ring rotation="-90 0 0" position="0 0.01 -220" material="src: stonetexture.jpg; repeat: 5 5" side="double" geometry="radiusOuter:31.5; radiusInner:40"></a-ring>-->
+
+      <a-circle rotation="-90 0 0" position="0 0 -220" radius="12.5" material="repeat:5 3;src:grass.jpg" geometry="radius:45;segments:100"></a-circle>
+      <a-ring rotation="-90 0 0" position="-0.005 0 -220" radius-inner="30" radius-outer="31.5" color="gray" side="double" geometry="radiusInner:45;radiusOuter:55;segmentsTheta:100"></a-ring>
+      <a-ring rotation="-90 0 0" position="0 0.01 -220" material="repeat:5 5;src:stonetexture.jpg" side="double" geometry="radiusInner:55;radiusOuter:100;segmentsTheta:100"></a-ring>
+
+
+      <!--<a-cone position="0 2.5 -220" material="color:#524425" geometry="radiusBottom:15;height:12;segmentsRadial:8;segmentsHeight:8" rotation="0 45 0"></a-cone>
+      <a-cylinder position="0 22.455 -220" material="color:#524425" geometry="segmentsRadial:6;segmentsHeight:6;radius:4;height:50"></a-cylinder>
+
+
+      <a-cylinder position="19 52 -220" material="color:#524425" geometry="height:40;radius:2;segmentsRadial:6;segmentsHeight:6" rotation="0 0 -58"></a-cylinder>
+      <a-cylinder position="-1 51.7 -200" material="color:#524425" geometry="height:50;radius:2;segmentsRadial:6;segmentsHeight:6" rotation="-5 -96 -63.5"></a-cylinder>
+      <a-cylinder position="5.8 58.58 -239.45" material="color:#524425" geometry="height:50;radius:2;segmentsRadial:6;segmentsHeight:6" rotation="-11 62 -50"></a-cylinder>
+      <a-cylinder position="-18.3 44.18 -232" material="color:#524425" geometry="height:50;radius:2;segmentsHeight:6;segmentsRadial:6" rotation="-5 140 -63.5"></a-cylinder>
+      <a-cylinder position="-19.25 46 -211" material="color:#524425" geometry="height:50;radius:2;segmentsHeight:6;segmentsRadial:6" rotation="-4.984732817638162 -160 -63.48372370049522"></a-cylinder>-->
+
+
+      
+
+
+      <!--LANTERN-->
+      <a-cylinder position="-10.5 52.25 -51" material="color:#ff4a4a" geometry="height:1.75;segmentsRadial:8" scale="1.5 1.5 1.5"></a-cylinder>
+      <a-cylinder position="13 62.5 -99" material="color:#ff4a4a" geometry="height:1.75;segmentsRadial:8" scale="1.5 1.5 1.5"></a-cylinder>
+
+
+
+
+
+
+
+      <!-- pavillion -->
+      <a-entity position="-40 0 -21.5" scale="2 2 2">
+      <a-box depth="0.2" width="1" height="6" position="37 3 25" material="src: wall.jpg; repeat: 9 6"></a-box>
+      <a-box depth="0.2" width="1" height="6" position="43 3 25" material="src: wall.jpg; repeat: 9 6"></a-box>
+
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "40 1.8 25.1" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "40 1.8 24.9" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "40 1.8 25.1" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "40 1.8 24.9" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+
+      <a-box depth="0.2" width="5" height="1.5" position="40 5.25 25" material="src: wall.jpg; repeat: 9 6" ></a-box>
+
+      <a-cylinder material="src: stonetexture.jpg;" radius="2"  position= "40 1.8 25" side="double" theta-start="300" theta-length="300" open-ended="true" height="0.2" rotation="0 90 90" segments-radial="100"></a-cylinder>
+
+      <!-- wall2 right -->
+      <a-box depth="0.2" width="1" height="6" position="43.5 3 24.5" material="src: wall.jpg; repeat: 9 6" rotation="0 90 0"></a-box>
+      <a-box depth="0.2" width="1" height="6" position="43.5 3 18.5" material="src: wall.jpg; repeat: 9 6" rotation="0 90 0"></a-box>
+
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "43.6 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "43.4 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "43.6 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "43.4 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+
+      <a-box depth="0.2" width="5" height="1.5" position="43.5 5.25 21.5" material="src: wall.jpg; repeat: 9 6"  rotation="0 90 0"></a-box>
+
+      <a-cylinder material="src: stonetexture.jpg;" radius="2"  position= "43.5 1.8 21.5" side="double" theta-start="300" theta-length="300" open-ended="true" height="0.2" rotation="0 0 90" segments-radial="100" ></a-cylinder>
+      
+
+      <!-- wall3 left -->
+
+      <a-box depth="0.2" width="1" height="6" position="36.5 3 24.5" material="src: wall.jpg; repeat: 9 6" rotation="0 90 0"></a-box>
+      <a-box depth="0.2" width="1" height="6" position="36.5 3 18.5" material="src: wall.jpg; repeat: 9 6" rotation="0 90 0"></a-box>
+
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "36.4 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "36.4 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "36.4 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "36.6 1.8 21.5" side="double" theta-start="300" theta-length="300" segments-theta="100" rotation="0 90 0"></a-ring>
+
+      <a-box depth="0.2" width="5" height="1.5" position="36.5 5.25 21.5" material="src: wall.jpg; repeat: 9 6"  rotation="0 90 0"></a-box>
+
+      <a-cylinder material="src: stonetexture.jpg;" radius="2"  position= "36.5 1.8 21.5" side="double" theta-start="300" theta-length="300" open-ended="true" height="0.2" rotation="0 0 90" segments-radial="100" ></a-cylinder>
+
+      <!-- wall4 back -->
+      <a-box depth="0.2" width="1" height="6" position="37 3 18" material="src: wall.jpg; repeat: 9 6"></a-box>
+      <a-box depth="0.2" width="1" height="6" position="43 3 18" material="src: wall.jpg; repeat: 9 6"></a-box>
+
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "40 1.8 18.1" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+      <a-ring material="src: stonetexture.jpg;" radius-inner="2" radius-outer="2.4"  position= "40 1.8 17.9" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "40 1.8 18.1" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+      <a-ring material="src: wall.jpg; repeat: 9 6" radius-inner="2.4" radius-outer="3.2"  position= "40 1.8 17.9" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+
+      <a-box depth="0.2" width="5" height="1.5" position="40 5.25 18" material="src: wall.jpg; repeat: 9 6" ></a-box>
+
+      <a-cylinder material="src: stonetexture.jpg;" radius="2"  position= "40 1.8 18" side="double" theta-start="300" theta-length="300" open-ended="true" height="0.2" rotation="0 90 90" segments-radial="100"></a-cylinder>
+
+      <!-- Floor + Ceiling -->
+
+      <a-plane rotation="-90 0 0" width="7.2" height="7.2" color="white" position="40 0.01 21.5"></a-plane>
+      <a-plane rotation="-90 0 0" width="7.2" height="7.2" color="white" position="40 6 21.5" side="double"></a-plane>
+
+
+
+      <a-box depth="0.4" height="7" width="0.4" position="43.5 2.5 25" material="src: cwood.jpg"></a-box>
+      <a-box depth="0.4" height="7" width="0.4" position="36.5 2.5 25" material="src: cwood.jpg"></a-box>
+      <a-box depth="0.4" height="7" width="0.4" position="43.5 2.5 18" material="src: cwood.jpg"></a-box>
+      <a-box depth="0.4" height="7" width="0.4" position="36.5 2.5 18" material="src: cwood.jpg"></a-box>
+
+      <!--Roof-->
+      <a-cone material="src: tiles.jpg; repeat: 5 1" height="2" theta-start="165" theta-length="30" radius-top="11.5" radius-bottom="16" side="double" position="40 19.3 20.1" open-ended="true" rotation="-110 0 0"></a-cone>
+      <a-cone material="src: tiles.jpg; repeat: 5 1" height="2" theta-start="165" theta-length="30" radius-top="11.5" radius-bottom="16" side="double" position="38.6 19.3 21.5" open-ended="true" rotation="-110 90 0"></a-cone>
+      <a-cone material="src: tiles.jpg; repeat: 5 1" height="2" theta-start="165" theta-length="30" radius-top="11.5" radius-bottom="16" side="double" position="41.4 19.3 21.5" open-ended="true" rotation="-110 -90 0"></a-cone>
+      <a-cone material="src: tiles.jpg; repeat: 5 1" height="2" theta-start="165" theta-length="30" radius-top="11.5" radius-bottom="16" side="double" position="40 19.3 22.9" open-ended="true" rotation="-110 180 0"></a-cone>
+
+      <a-torus color="#2B2D2F" arc="20" radius="15" radius-tubular="0.2" rotation="0 45 -60" position="30 18.25 31.5" side="double"></a-torus>
+      <a-torus color="#2B2D2F" arc="20" radius="15" radius-tubular="0.2" rotation="0 -45 -60" position="30 18.25 11.5" side="double"></a-torus>
+      <a-torus color="#2B2D2F" arc="20" radius="15" radius-tubular="0.2" rotation="0 -135 -60" position="50 18.25 11.5" side="double"></a-torus>
+      <a-torus color="#2B2D2F" arc="20" radius="15" radius-tubular="0.2" rotation="0 135 -60" position="50 18.25 31.5" side="double"></a-torus>
+
+      </a-entity>
+
+
+
+
+
+        <!-- grass -->
+      <a-circle rotation="-90 0 0" position="40 0 21.5" radius="15" material="src: grass.jpg"></a-circle>
+      <a-ring rotation="-90 0 0" position="40 0 21.5" radius-inner="15"
+      radius-outer="16.5" color="gray" side="double"></a-ring>
+      <a-ring rotation="-90 0 0" position="40 0.01 21.5"  material="src: stonetexture.jpg; repeat: 5 5" side="double" geometry="radiusOuter:26; radiusInner:16.5"></a-ring>
+
+
+
+
+
+
+
+      <a-entity position="100 0 20" rotation="0 90 0" scale="2 2 2">
+        <a-box depth="0.2" width="21.25" height="6" position="-14.15 3 -5" material="repeat:9 6;src:wall.jpg"></a-box>
+        <a-box depth="0.2" width="21.25" height="6" position="14.15 3 -5" material="repeat:9 6;src:wall.jpg"></a-box>
+
+        <a-ring material="src:stonetexture.jpg" radius-inner="3" radius-outer="3.5" position="0 3.5 -4.9" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+        <a-ring material="src:stonetexture.jpg" radius-inner="3" radius-outer="3.5" position="0 3.5 -5.1" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+
+        <a-cylinder radius="3.5" position="0 3.5 -5" side="double" theta-start="300" theta-length="300" open-ended="true" height="0.2" rotation="0 90 90" segments-radial="100"></a-cylinder>
+        <a-cylinder material="src:stonetexture.jpg" radius="3" position="0 3.5 -5" side="double" theta-start="300" theta-length="300" open-ended="true" height="0.2" rotation="0 90 90" segments-radial="100"></a-cylinder>
+
+        <a-ring material="repeat:9 6;src:wall.jpg" radius-inner="3.5" radius-outer="6" position="0 3.5 -4.9" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+        <a-ring material="repeat:9 6;src:wall.jpg" radius-inner="3.5" radius-outer="6" position="0 3.5 -5.1" side="double" theta-start="300" theta-length="300" segments-theta="100"></a-ring>
+
+
+        <a-cylinder material="repeat:1 6;src:tiles.jpg" segments-radial="3" theta-start="0" theta-length="180" side="double" radius="1" rotation="0 0 90" height="20" position="-15 6 -5"></a-cylinder>
+        <a-cylinder material="repeat:1 6;src:tiles.jpg" segments-radial="3" theta-start="0" theta-length="180" side="double" radius="1" rotation="0 0 90" height="20" position="15 6 -5"></a-cylinder>
+
+        <a-ring material="repeat:4 4;src:tiles.jpg" radius-inner="6" radius-outer="7" position="0 3 -4" side="double" theta-start="30" theta-length="120" segments-theta="8" rotation="-5 0 0"></a-ring>
+        <a-ring material="repeat:4 4;src:tiles.jpg" radius-inner="6" radius-outer="7" position="0 3 -6" side="double" theta-start="30" theta-length="120" segments-theta="8" rotation="5 0 0"></a-ring>
+
+        <a-cylinder material="src:tiles.jpg" radius="7" position="0 3 -5" side="double" theta-start="30" theta-length="120" open-ended="true" height="1" rotation="0 90 90" segments-radial="8"></a-cylinder>
+        
+        <a-triangle position="2 0 -4.9" vertex-a="-0.5 0.9 0" vertex-c="0.35 -0.5 0" material="repeat:0.2 0.2;src:stonetexture.jpg" side="double"></a-triangle>
+        <a-triangle position="2 0 -5.1" vertex-a="-0.5 0.9 0" vertex-c="0.35 -0.5 0" material="repeat:0.2 0.2;src:stonetexture.jpg" side="double"></a-triangle>
+        <a-triangle position="-2 0 -4.9" vertex-a="0.5 0.9 0" vertex-b="-0.35 -0.5 0" material="repeat:0.2 0.2;src:stonetexture.jpg" side="double"></a-triangle>
+        <a-triangle position="-2 0 -5.1" vertex-a="0.5 0.9 0" vertex-b="-0.35 -0.5 0" material="repeat:0.2 0.2;src:stonetexture.jpg" side="double"></a-triangle>
+
+        <a-plane side="double" height="1.8" width="0.2" rotation="0 90 0" position="-1.5 0 -5"></a-plane>
+
+        <a-plane side="double" height="1.8" width="0.2" rotation="0 90 0" position="1.5 0 -5"></a-plane>
+      </a-entity>
+
+      <a-box position="72.5 20 -22" material="repeat:10 10;src:stonewall.jpg" geometry="width:35;height:40"></a-box>
+      <a-box position="60.6 20 -16.7" material="repeat:10 10;src:stonewall.jpg" geometry="width:15;height:40" rotation="0 90 0"></a-box>
+
+
+      <!--flooring around pavillion-->
+
+      <a-plane position="59.95 -0.02 -18.25" rotation="-90 0 0" material="repeat:5 5;src:stonetexture.jpg" geometry="width:60;height:50"></a-plane>
+      <a-plane position="59.95 0 56.25" rotation="-90 0 0" material="repeat:3 3;src:stonetexture.jpg" geometry="height:27;width:60"></a-plane>
+      <a-plane position="72.65 0 25.65" rotation="-90 0 0" material="repeat:2.5 2.5;src:stonetexture.jpg" geometry="width:35;height:39"></a-plane>
+      
+
+
+
+
+
+      <!--roof left front-->
+      <a-box position="-32.5 47.25 -30" material="src:tiles.jpg" geometry="width:30;depth:32;height:0.25" rotation="0 0 -30"></a-box>
+      <a-box position="-62.6 47.25 -30" material="src:tiles.jpg" geometry="depth:32;height:0.25;width:30" rotation="0 0 30"></a-box>
+    
+      <a-box position="-47.35 55 -30" material="src:tiles.jpg" geometry="width:5;depth:32;height:0.25"></a-box>
+      <a-triangle position="-47.9 40.5 -14.543" geometry="vertexA:0.27 15.5 0;vertexB:-27 -0.5 0;vertexC:28 -0.5 0" material="src:stonewall.jpg; repeat: 5 5" side="double"></a-triangle>
+
+
+
+
+      <a-entity>
+        <a-box position="-32 0.75 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="width:5;depth:30;height:1.5"></a-box>
+
+        <a-box position="-37 1.5 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="height:3;width:5;depth:30"></a-box>
+
+        <a-box position="-42 2.25 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="height:4.5;width:5;depth:30"></a-box>
+
+        <a-box position="-47 3 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="height:6;width:5;depth:30"></a-box>
+
+        <a-box position="-52 3.75 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="height:7.5;width:5;depth:30"></a-box>
+
+        <a-box position="-57 4.5 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="height:9;width:5;depth:30"></a-box>
+
+        <a-box position="-62 5.25 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="height:10.5;width:5;depth:30"></a-box>
+
+        <a-box position="-67 6 0.46" material="src:stonetexture.jpg;repeat: 7.5 2" geometry="height:12;width:5;depth:30"></a-box>
+      </a-entity>
+
+
+
+
+      <!--roof right front-->
+      <a-entity position="95.25 0 6.5">
+        <a-box position="-42.157 44.137 -21.151" material="src:tiles.jpg" geometry="width:24;depth:15;height:0.25" rotation="0 0 -30"></a-box>
+        <a-box position="-21 44.15 -33.76" material="src:tiles.jpg" geometry="depth:35;width:24;height:0.25" rotation="0 -90 -30"></a-box>
+        <a-box position="-66.75 45.1 -30" material="src:tiles.jpg" geometry="width:21.5;depth:32;height:0.25" rotation="0 0 30"></a-box>
+        <a-box position="-55.2 50.3 -30" material="src:tiles.jpg" geometry="depth:32;height:0.25;width:5"></a-box>
+        <a-triangle position="-47.9 40.5 -16.32" geometry="vertexC:13.71 -0.5 0;vertexA:-7.2 11.23 0;vertexB:-27 -0.5 0" material="repeat:5 5;src:stonewall.jpg" side="double"></a-triangle>
+      </a-entity>
+
+
+      <!--flooring-->
+      
+      <a-plane position="0 -0.02 -116.4" rotation="-90 0 0" material="src:stonetexture.jpg" geometry="height:15;width:60"></a-plane>
+      <a-plane position="0.477 -0.02 53" rotation="-90 0 0" material="repeat:4 4;src:stonetexture.jpg" geometry="height:35;width:60"></a-plane>
+      <a-plane position="-49.05 0 42.5" rotation="-90 0 0" material="repeat:4 4;src:stonetexture.jpg" geometry="height:55;width:60"></a-plane>
+
+
+      <!--left house grfti-->
+      <a-box position="-27.445 12 -14.54" material="transparent:true;src:https://i.ibb.co/LrX5Bjy/verticalpt.png" geometry="height:15;depth:15;width:0.1" rotation="0 90 0"></a-box>
+
+      <!--right house grfti-->
+      <a-box position="25.65 8.5 -9.25" material="src:https://i.ibb.co/3TMyccW/vertical.png;transparent:true" geometry="height:17;depth:10;width:0.1" rotation="0 90 0"></a-box>
+
+
+      <a-box position="45 24.4 -9.25" material="transparent:true;src:https://i.ibb.co/yV2DTKY/bdragon.png" geometry="height:30;depth:21;width:0.1" rotation="0 90 0"></a-box>
+      
+
+
+
+
+      <!--<a-entity camera="active: true" look-controls wasd-controls="acceleration: 150" position="75 4 20" rotation="0 -90 0" data-aframe-default-camera>-->
+      <a-entity camera="active: true" look-controls wasd-controls="acceleration: 150" position="0 4 0" rotation="0 0 0" data-aframe-default-camera>
+
+          <a-cursor></a-cursor>
+
+      </a-entity>
+
+
+      <!--borders-->
+      <a-cylinder position="0 30 -220" material="src:wall.jpg;side:back" geometry="height:60;openEnded:true;thetaLength:335.25;thetaStart:13.25;segmentsRadial:32;radius:100"></a-cylinder>
+
+        <!--left-->
+      <a-box position="-71 20 -34.5" material="repeat:30 30;src:stonewall.jpg" geometry="width:40;height:40;depth:4" rotation="0 90 0"></a-box>
+      <a-box position="-71 30 -99" material="src:stonewall.jpg;repeat:1 10" geometry="depth:90;width:4;height:60"></a-box>
+
+        <!--right-->
+      <a-box position="90 30 -110" material="repeat:30 30;src:stonewall.jpg" geometry="depth:125;height:60"></a-box>
+      <a-box position="90 20 -37.155" material="repeat:15 15;src:stonewall.jpg" geometry="depth:30;height:40"></a-box>
+      
+
+
+
+      <!--env light-->
+
+     <a-entity light="intensity:0.4;color:#BBB;type:ambient" data-aframe-default-light="" aframe-injected=""></a-entity>
+
+
+      <a-entity light="intensity:0.6;color:#004080;castShadow:true" position="-0.5 1 1" data-aframe-default-light="" aframe-injected=""></a-entity>
+      <!-- intensity 0.6 (lighter) or 0.5 (darker) -->
+
+
+
+      <!--object lights-->
+      <a-entity light="intensity:2;distance:5;type:point;color:#ffff00;castShadow:true" position="-17.4 11.5 -71.7" data-aframe-default-light="" aframe-injected="" id="stoneLanternLight"></a-entity>
+
+
+
+      <a-entity light="intensity:2;distance:10;type:point;color:#ffff00;castShadow:true" position="1.96 30.76 -42.65"></a-entity>
+      <a-entity light="intensity:2;distance:10;type:point;color:#ffff00;castShadow:true" position="1.91 42.23 -42.65" ></a-entity>
+      <a-entity light="intensity:2;distance:10;type:point;color:#ffff00;castShadow:true" position="1.96 36.6 -36.5"></a-entity>
+      <a-entity light="color:#ffff00;intensity:0.5;distance:10;type:point;castShadow:true" position="1.96 41.88 -36.35"></a-entity>
+      <a-entity light="intensity:0.5;distance:10;type:point;color:#ffff00;castShadow:true" position="5.25 35.14 -47.955"></a-entity>
+      <a-entity light="intensity:0.5;distance:10;type:point;color:#ffff00;castShadow:true" position="5.25 42.39 -47.955"></a-entity>
+      <a-entity light="intensity:0.5;distance:10;type:point;color:#ffff00;castShadow:true" position="2.875 44.24 -47.955"></a-entity>
+
+
+      <a-entity light="color:#ffff00;distance:10;intensity:1;type:point;castShadow:true" position="-9.88 52.59 -46.63"></a-entity>
+      <a-entity light="color:#ffff00;distance:10;intensity:1;type:point;castShadow:true" position="-9.88 49.45 -54.63"></a-entity>
+
+
+      <a-entity light="color:#ffff00;distance:10;intensity:1;type:point;castShadow:true" position="13.089 61.665 -95.205"></a-entity>
+      <a-entity light="color:#ffff00;distance:10;intensity:1;type:point;castShadow:true" position="13.089 62.463 -102.586"></a-entity>
+
+
+
+
+      <!--test overhead light-->
+      <a-entity light="angle:180;intensity:0.5;distance:100;type:spot;color:#c0c0c0;castShadow:true" position="2.084 45.152 -38"  rotation="-90 0 0"></a-entity>
+      <a-entity light="angle:180;intensity:0.5;distance:100;type:spot;color:#c0c0c0;castShadow:true" position="2.084 70 -78.541" data-aframe-default-light="" aframe-injected="" rotation="-90 0 0"></a-entity>
+
+
+
+      <!-- 
+        To change to daylight:
+          1. Delete properties from a-scene
+          2. Comment out Env light
+          3. Change color of sky to #ECECEC
+
+
+      -->
+
+
+
+      <!--<a-cylinder position="0 75 -220" material="opacity:0.5;transparent:true;color:#4CC3D9;side:double" geometry="radius:99.9;height:30;segmentsRadial:32"></a-cylinder>
+
+      <a-cylinder position="0 30 -220" material="opacity:0.5;transparent:true;color:#4CC3D9;side:double" geometry="radius:99.0;height:60;openEnded:true;thetaLength:335.25;thetaStart:13.25;segmentsRadial:32"></a-cylinder>
+      <a-cylinder position="0 30 -220" material="opacity:0.5;transparent:true;color:#4CC3D9;side:double" geometry="thetaLength:327.5;thetaStart:17;radius:75;height:60;openEnded:true;segmentsRadial:32"></a-cylinder>
+
+      <a-box position="-20 30 -135" material="opacity:0.5;transparent:true;color:#4CC3D9" geometry="depth:25;height:60;width:0.5"></a-box>
+      <a-box position="22.5 30 -136" material="opacity:0.5;transparent:true;color:#4CC3D9" geometry="width:0.25;depth:25;height:60"></a-box>-->
+
+      <!--<a-ring position="0 15 -220" material="opacity:0.5;side:double;transparent:true;color:#4CC3D9" rotation="-90 0 0" geometry="thetaLength:327;thetaStart:287.5;radiusInner:75;radiusOuter:100"></a-ring>
+      
+      
+
+      <a-cylinder position="0 7.5 -220" material="opacity:0.5;transparent:true;color:#4CC3D9;side:double" geometry="radius:99.9;height:15;openEnded:true;thetaLength:335.25;thetaStart:13.25;segmentsRadial:32"></a-cylinder>
+      <a-cylinder position="0 7.5 -220" material="opacity:0.5;transparent:true;color:#4CC3D9;side:double" geometry="thetaLength:327.5;thetaStart:17;radius:75;height:15;openEnded:true;segmentsRadial:32"></a-cylinder>
+      
+      
+      <a-box position="-23.308 7.5 -135.436" material="opacity:0.5;transparent:true;color:#4CC3D9" geometry="depth:25;height:15;width:0.5" rotation="0 -15.5 0"></a-box>
+      <a-box position="26.475 7.5 -136.621" material="opacity:0.5;transparent:true;color:#4CC3D9" geometry="depth:25;height:15;width:0.25" rotation="0 17.01684651538545 0"></a-box>
+
+      -->
+
+    
+
+
+      <!--tree place-->
+      <a-plane position="190.5 0 -18.5" rotation="-90 0 0" material="repeat:100 100;src:grass.jpg" geometry="width:200;height:175"></a-plane>
+
+
+      <!--right houses ceiling-->
+
+      <a-box position="40 14 -65" material="src:dwood.jpg" geometry="depth:110;width:40"></a-box>
+      <a-box position="74 14 -70.75" material="src:dwood.jpg" geometry="width:30;depth:98"></a-box>
+
+
+      <!--right houses flooring-->
+
+      <a-box position="40 -0.5 -65" material="src:dwood.jpg" geometry="depth:110;width:40"></a-box>
+      <a-box position="74 -0.5 -70.75" material="src:dwood.jpg" geometry="width:30;depth:98"></a-box>
+
+
+      <a-box position="55.05 35 -120.7" material="repeat:1 10;src:wall.jpg" geometry="width:68.25;height:70"></a-box>
+
+
+
+
+
+      <!--left houses inside wall-->
+      <a-box position="-44 30 -50.25" material="src:wall.jpg" geometry="depth:50;height:60;width:0.5" rotation="0 90 0"></a-box>
+      <a-box position="-44 27.5 -46.25" material="src:wall.jpg" geometry="height:55;depth:50;width:0.5" rotation="0 90 0"></a-box>
+
+      <a-box position="-44 30 -121.6" material="src:wall.jpg" geometry="depth:50;height:60;width:0.5" rotation="0 90 0"></a-box>
+
+
+
+
+      <!--left front house flooring-->
+      <a-box position="-44.6 -0.5 -30.4" material="src:dwood.jpg" geometry="depth:31;width:50"></a-box>
+
+
+      <!--left front house ceiling-->
+      <a-box position="-44.7 12.5 -30.4" material="src:dwood.jpg" geometry="width:50;depth:31"></a-box>
+
+
+
+
+      <!--left front house lighting-->
+      <a-entity light="angle:70;color:#c0c0c0;distance:70;type:spot;castShadow:true" position="-55 37.5 -50" data-aframe-default-light="" aframe-injected="" rotation="-90 0 0"></a-entity>
+
+      <!--left back house lighting-->
+      <a-entity light="angle:70;color:#c0c0c0;distance:70;type:spot;castShadow:true" position="-55 40 -90.7" data-aframe-default-light="" aframe-injected="" rotation="-90 0 0"></a-entity>
+
+
+
+
+      <!--left back house flooring-->
+      <a-box position="-44.6 -0.5 -85" material="src:dwood.jpg" geometry="depth:75;width:50"></a-box>
+
+      <!--left back house ceiling -->
+      <a-box position="-44.6 12.5 -85" material="src:dwood.jpg" geometry="depth:75;width:50"></a-box>
+
+      
+
+
+      <!--left front house tank-->
+      <a-box position="-65 1 -25.5" material="repeat:1 10;src:dwood.jpg" geometry="depth:20;width:10;height:2"></a-box>
+      <a-box position="-65 5.75 -25.5" material="opacity:0.5;transparent:true;color:#4CC3D9" geometry="height:7.5;depth:20;width:10" id="tankLeft"></a-box>
+
+
+
+
+      <!--right house lighting-->
+      <a-entity light="distance:70;angle:70;type:spot;color:#c0c0c0;castShadow:true" position="58 40 -88" data-aframe-default-light="" aframe-injected="" rotation="-90 0 0"></a-entity>
+      <a-entity light="angle:70;color:#c0c0c0;distance:70;type:spot;castShadow:true" position="58 37.5 -58.471" data-aframe-default-light="" aframe-injected="" rotation="-90 0 0"></a-entity>
+
+
+      
+      <a-box position="57.5 1 -115.5" material="repeat:1 10;src:finedwood.jpg; repeat: 10 5" geometry="depth:10;width:65;height:2"></a-box>
+      <a-box position="57.5 5.75 -115.5" material="opacity:0.5;transparent:true;color:#4CC3D9" geometry="height:7.5;width:65;depth:10" id="tankRight"></a-box>
+
+
+      <a-entity light="distance:75;intensity:1.5;angle:70;color:#c0c0c0;type:spot;castShadow:true" position="0 95 -220" data-aframe-default-light="" aframe-injected="" rotation="-45 0 0"></a-entity>
+      <a-entity light="distance:75;intensity:1.5;color:#c0c0c0;type:spot;castShadow:true" position="0 45 -220" data-aframe-default-light="" aframe-injected="" rotation="-90 0 0"></a-entity>
+
+    </a-scene>
+  </body>
+</html>
