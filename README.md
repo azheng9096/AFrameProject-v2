@@ -2,9 +2,9 @@
 An exploration of A-Frame with animation, and the addition of 3D models
 
 <p>This work is based on:
-  <br><a href="https://sketchfab.com/3d-models/origami-water-lilies-b02aeabe3e0b461cb214c90e5a6b3b75"> Origami - Water Lilies </a> by <a href="https://sketchfab.com/Clonk"> Clonk </a>licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  <br><a href="https://sketchfab.com/3d-models/origami-water-lilies-b02aeabe3e0b461cb214c90e5a6b3b75"> Origami - Water Lilies </a> by <a href="https://sketchfab.com/Clonk"> Clonk </a> licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
   
-  <br><a href=https://sketchfab.com/3d-models/koi-fish-f7e2e4858f2f438aa2832566220199f4"> Koi Fish </a> by <a href="https://sketchfab.com/lesliestowe"> lesliestowe </a>licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+  <br><a href="https://sketchfab.com/3d-models/koi-fish-f7e2e4858f2f438aa2832566220199f4"> Koi Fish </a> by <a href="https://sketchfab.com/lesliestowe"> lesliestowe </a>licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
   
   <br><a href="https://sketchfab.com/3d-models/metal-hanging-lantern-1bdbe7ea2e5242948f6cd7cccfd7206e"> Metal hanging lantern </a> by <a href="https://sketchfab.com/Irina.Tuchna"> Irina.Tuchna </a>licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
   
