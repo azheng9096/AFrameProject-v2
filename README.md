@@ -1,5 +1,5 @@
 # AFrameProject-v2
-An exploration of A-Frame with animation, and the addition of 3D models
+High school senior project - an elementary introduction and exploration of A-Frame with 3D models. Extension to <a href="https://github.com/azheng9096/AFrameProject"> AFrameProject </a>
 
 
 
