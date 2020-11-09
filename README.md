@@ -1,5 +1,5 @@
 # AFrameProject-v2
-High school senior project - an elementary introduction and exploration of A-Frame with 3D models. Extension to <a href="https://github.com/azheng9096/AFrameProject"> AFrameProject </a>
+High school senior project - an elementary introduction and exploration of A-Frame with 3D models. Extension to <a href="https://github.com/azheng9096/CH-Insp"> CH-Insp AFrameProject </a>
 
 
 
